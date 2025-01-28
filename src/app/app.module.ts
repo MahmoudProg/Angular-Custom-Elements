@@ -1,12 +1,17 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MyPopupComponent } from './my-popup/my-popup.component';
+import { createCustomElement } from '@angular/elements';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MyPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -15,4 +20,16 @@ import { AppComponent } from './app.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+
+
+export class AppModule {
+  constructor(private injector: Injector) {
+    const el = createCustomElement(MyPopupComponent, { injector: this.injector });
+    customElements.define('my-popup', el);
+
+  }
+
+
+  ngDoBootstrap() { }
+}
